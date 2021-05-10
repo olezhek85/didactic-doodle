@@ -16,11 +16,10 @@ const start = async () => {
       root: path.join(__dirname, "public"),
     });
 
-    // app.get("/", {}, (request, reply) => {
-    //   reply.send({
-    //     data: "hello",
-    //   });
-    // });
+    app.post("/api/register", {}, (request, reply) => {
+      console.log(`email`, request.body.email);
+      console.log(`password`, request.body.password);
+    });
 
     await app.listen(3000);
   } catch (err) {
