@@ -1,3 +1,4 @@
+import "./env.js";
 import path from "path";
 import { fastify } from "fastify";
 import { fileURLToPath } from "url";
