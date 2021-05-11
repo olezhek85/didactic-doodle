@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import fastifyStatic from "fastify-static";
 import { connectDb } from "./db.js";
 import { registerUser } from "./accounts/register.js";
+import { authorizeUser } from "./accounts/authorize.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +24,17 @@ const start = async () => {
           request.body.email,
           request.body.password
         );
-        console.log(`userId`, userId);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    app.post("/api/authorize", {}, async (request, reply) => {
+      try {
+        const userId = await authorizeUser(
+          request.body.email,
+          request.body.password
+        );
       } catch (e) {
         console.error(e);
       }
