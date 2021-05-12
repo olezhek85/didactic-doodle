@@ -3,6 +3,7 @@ import path from "path";
 import { fastify } from "fastify";
 import { fileURLToPath } from "url";
 import fastifyStatic from "fastify-static";
+import fastifyCookie from "fastify-cookie";
 import { connectDb } from "./db.js";
 import { registerUser } from "./accounts/register.js";
 import { authorizeUser } from "./accounts/authorize.js";
@@ -14,6 +15,10 @@ const app = fastify({ logger: true });
 
 const start = async () => {
   try {
+    app.register(fastifyCookie, {
+      secret: process.env.COOKIE_SECRET,
+    });
+
     app.register(fastifyStatic, {
       root: path.join(__dirname, "public"),
     });
@@ -35,6 +40,15 @@ const start = async () => {
           request.body.email,
           request.body.password
         );
+        reply
+          .setCookie("testCookie", "the value is this", {
+            path: "/",
+            domain: "localhost",
+            httpOnly: true,
+          })
+          .send({
+            data: "hello world",
+          });
       } catch (e) {
         console.error(e);
       }
