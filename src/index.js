@@ -44,17 +44,14 @@ const start = async () => {
 
         if (isAuthorized) {
           await logUserIn(userId, request, reply);
-        }
-
-        reply
-          .setCookie("testCookie", "the value is this", {
-            path: "/",
-            domain: "localhost",
-            httpOnly: true,
-          })
-          .send({
-            data: "hello world",
+          reply.send({
+            data: "User Logged In",
           });
+        } else {
+          reply.send({
+            data: "Auth Failed",
+          });
+        }
       } catch (e) {
         console.error(e);
       }
