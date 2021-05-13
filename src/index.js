@@ -60,7 +60,7 @@ const start = async () => {
 
     app.get("/test", {}, async (request, reply) => {
       try {
-        const user = await getUserFromCookies(request);
+        const user = await getUserFromCookies(request, reply);
 
         if (user?._id) {
           reply.send({
