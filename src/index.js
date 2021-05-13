@@ -8,6 +8,7 @@ import { connectDb } from "./db.js";
 import { registerUser } from "./accounts/register.js";
 import { authorizeUser } from "./accounts/authorize.js";
 import { logUserIn } from "./accounts/logUserIn.js";
+import { getUserFromCookies } from "./accounts/user.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +51,24 @@ const start = async () => {
         } else {
           reply.send({
             data: "Auth Failed",
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    app.get("/test", {}, async (request, reply) => {
+      try {
+        const user = await getUserFromCookies(request);
+
+        if (user?._id) {
+          reply.send({
+            data: user,
+          });
+        } else {
+          reply.send({
+            data: "User Lookup Failed",
           });
         }
       } catch (e) {
