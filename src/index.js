@@ -9,6 +9,7 @@ import { registerUser } from "./accounts/register.js";
 import { authorizeUser } from "./accounts/authorize.js";
 import { logUserIn } from "./accounts/logUserIn.js";
 import { getUserFromCookies } from "./accounts/user.js";
+import { logUserOut } from "./accounts/logUserOut.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,6 +72,17 @@ const start = async () => {
             data: "User Lookup Failed",
           });
         }
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    app.post("/api/logout", {}, async (request, reply) => {
+      try {
+        await logUserOut(request, reply);
+        reply.send({
+          data: "User Logged Out",
+        });
       } catch (e) {
         console.error(e);
       }
